@@ -2,6 +2,7 @@ package com.laninim.brochesiatest.data.dto
 
 
 import com.google.gson.annotations.SerializedName
+import com.laninim.brochesiatest.model.repositories.DrinkModel
 
 data class Drink(
     @SerializedName("dateModified")
@@ -106,4 +107,13 @@ data class Drink(
     val strTags: String,
     @SerializedName("strVideo")
     val strVideo: Any
-)
+){
+    fun mapToModel() : DrinkModel {
+        return DrinkModel(
+            idDrink = this.idDrink,
+            category = this.strCategory ?: "none",
+            drinkName = this.strDrink,
+            imageUrl = this.strDrinkThumb
+        )
+    }
+}
