@@ -40,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.2"
@@ -84,6 +85,8 @@ dependencies {
 
     //splashscreen
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+    implementation("com.squareup.picasso:picasso:2.8")
 }
 
 kapt {

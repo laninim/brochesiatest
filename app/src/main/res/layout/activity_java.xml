@@ -36,7 +36,7 @@
         app:layout_constraintStart_toEndOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <GridView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/showdrinkgridview"
         android:layout_width="409dp"
         android:layout_height="689dp"

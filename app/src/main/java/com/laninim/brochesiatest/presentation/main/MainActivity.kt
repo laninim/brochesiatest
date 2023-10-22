@@ -99,7 +99,9 @@ class MainActivity : ComponentActivity() {
                             Button(
                                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                                 onClick = {
-                                    val changeActivityIntent = Intent(applicationContext,JavaActivity::class.java)
+                                    val changeActivityIntent = Intent(applicationContext,JavaActivity::class.java).apply {
+                                       this.putExtra("drinkList", ArrayList(screenState.drinkList))
+                                    }
                                     startActivity(changeActivityIntent)
                                 }
                             ) {
