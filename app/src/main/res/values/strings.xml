@@ -3,4 +3,5 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="first_logo_part">Brochesia</string>
     <string name="second_logo_part">Drinks</string>
+    <string name="missing_results">No drinks results for this category</string>
 </resources>

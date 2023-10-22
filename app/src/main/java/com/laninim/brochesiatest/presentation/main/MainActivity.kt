@@ -3,7 +3,6 @@ package com.laninim.brochesiatest.presentation.main
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -27,12 +25,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.laninim.brochesiatest.R
 import com.laninim.brochesiatest.presentation.main.components.DrinkCard
 import com.laninim.brochesiatest.presentation.second.JavaActivity
 import com.laninim.brochesiatest.ui.theme.AzureBrochesia
@@ -70,7 +68,7 @@ class MainActivity : ComponentActivity() {
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.Center
                         ) {
-                            Text(text = "No drinks results for this category")
+                            Text(text = stringResource(id = R.string.missing_results))
                         }
                     }else{
                         Column(
@@ -84,20 +82,22 @@ class MainActivity : ComponentActivity() {
                                 verticalAlignment = Alignment.CenterVertically
                             ){
                                 Text(
-                                    text = "Brochesia",
+                                    text = stringResource(id = R.string.first_logo_part),
                                     style = MaterialTheme.typography.headlineLarge.copy(
                                         color = AzureBrochesia,
                                         fontWeight = FontWeight.SemiBold
                                     )
                                 )
-                                Text(text = "Drinks",
+                                Text(text = stringResource(id = R.string.second_logo_part),
                                     style = MaterialTheme.typography.headlineSmall.copy(
                                         color = GreenBrochesia,
                                         fontWeight = FontWeight.SemiBold
                                     ))
                             }
                             Button(
-                                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 16.dp),
                                 onClick = {
                                     val changeActivityIntent = Intent(applicationContext,JavaActivity::class.java).apply {
                                        this.putExtra("drinkList", ArrayList(screenState.drinkList))
