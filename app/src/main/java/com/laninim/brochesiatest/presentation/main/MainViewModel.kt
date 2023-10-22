@@ -33,7 +33,7 @@ class MainViewModel @Inject constructor(
 
     private fun loadDrinkByCategory() {
         viewModelScope.launch {
-            Log.d("Network call", "start call for drink")
+
             val drinkList = repository.getDrinkByCategory("Cocktail")
             if(drinkList.drinks.isNotEmpty()){
                 delay(1000)
@@ -48,8 +48,7 @@ class MainViewModel @Inject constructor(
                     )
                 }
             }
-            Log.d("Results Network call", "get ${drinkList.drinks.size} results Drink: $drinkList" )
-            Log.d("Map result", "Result ${_mainScreenState.value.drinkList}")
+
         }
     }
 }
