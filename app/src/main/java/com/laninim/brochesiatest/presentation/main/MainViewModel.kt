@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.laninim.brochesiatest.data.repositories.DrinkRepositoryImpl
+import com.laninim.brochesiatest.data.util.ApiResponse
 import com.laninim.brochesiatest.model.repositories.DrinkModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -25,7 +26,7 @@ class MainViewModel @Inject constructor(
      init {
          _mainScreenState.update {
              it.copy(
-                 dataIsLoaded = false
+                 screenState = SCREENSTATE.LOADING
              )
          }
          loadDrinkByCategory()
@@ -35,18 +36,31 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
 
             val drinkList = repository.getDrinkByCategory("Cocktail")
-            if(drinkList.drinks.isNotEmpty()){
-                delay(1000)
-                _mainScreenState.update {
-                    it.copy(
+            when(drinkList){
+                is ApiResponse.Success -> {
+                    if(drinkList.response.drinks.isNotEmpty()){
+                        delay(1000)
+                        _mainScreenState.update {
+                            it.copy(
 
-                        drinkList = drinkList.drinks.map {drink ->
-                            drink.mapToModel()
-                        },
+                                drinkList = drinkList.response.drinks.map {drink ->
+                                    drink.mapToModel()
+                                },
 
-                        dataIsLoaded = true
-                    )
+                                screenState = SCREENSTATE.LOADED
+                            )
+                        }
+                    }
                 }
+                is ApiResponse.Failure -> {
+                    Log.d("Errore di rete", "Errore di rete")
+                    _mainScreenState.update {
+                        it.copy(
+                            screenState = SCREENSTATE.ERROR
+                        )
+                    }
+                }
+
             }
 
         }

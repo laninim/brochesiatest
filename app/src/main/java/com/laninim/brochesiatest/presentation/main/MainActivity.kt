@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,9 +29,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.laninim.brochesiatest.R
@@ -51,7 +57,7 @@ class MainActivity : ComponentActivity() {
                 val screenState by viewModel.mainScreenState.collectAsState()
                 
                 Scaffold {
-                    if(!screenState.dataIsLoaded){
+                    if(screenState.screenState == SCREENSTATE.LOADING){
                         Column(
                             modifier = Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -62,7 +68,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                     }
-                    else if(screenState.drinkList.isEmpty() && screenState.dataIsLoaded){
+                    else if(screenState.drinkList.isEmpty() && screenState.screenState == SCREENSTATE.LOADED){
                         Column(
                             modifier = Modifier.fillMaxSize(),
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -70,7 +76,17 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Text(text = stringResource(id = R.string.missing_results))
                         }
-                    }else{
+                    }else if(screenState.screenState == SCREENSTATE.ERROR){
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Icon(imageVector = Icons.Default.Warning, contentDescription = "errore", tint = Color.Red, modifier = Modifier.size(60.dp))
+                            Text(text = "Missing Internet Connection", fontSize = 18.sp)
+                        }
+                    }
+                    else{
                         Column(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
